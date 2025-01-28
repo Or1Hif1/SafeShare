@@ -33,19 +33,21 @@ class LoginPage:
         is_submit = False
         i = 0
         opacity = 255
+        tick = 0
         while running:
             self.screen.blit(self.bg, (0, 0))
             self.screen.blit(self.submit_but, (493, 543))
             render_text(self.username, bebas_font, (5, 51, 43), 345, 299, self.screen)  # White text
             render_text(len(self.password) * "*", bebas_font, (5, 51, 43), 345, 456, self.screen)  # White text
+            tick += 1
             if opacity > 1:
                 if i < 600:
                     i += 50
-                elif opacity > 0:
+                elif opacity > 0 and tick > 30:
                     opacity -= 8
-                    print("lower")
+                    #   print("lower")
                 welcome(self.logo, self.screen, i, opacity)
-                print("keep welcome")
+                #   print("keep welcome")
 
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
