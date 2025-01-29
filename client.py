@@ -1,7 +1,8 @@
 import socket
 
 
-class Client():
+class Client:
 
     def __init__(self):
-        self.soc = socket.socket()
+        self.soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
