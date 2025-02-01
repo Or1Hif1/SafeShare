@@ -25,12 +25,12 @@ class LoginPage:
         self.bg = pygame.image.load("images/login_back.png")
         self.submit_but = pygame.image.load("images/submit_button.png")
         self.logo = pygame.image.load("images/logosafe2.png")
+        self.is_submit = False
         pygame.display.set_caption('SafeShare')
 
     def loop(self):
         running = True
         is_user = True
-        is_submit = False
         i = 0
         opacity = 255
         tick = 0
@@ -51,14 +51,14 @@ class LoginPage:
 
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1 and not is_submit:  # Left click (button 1 is left click)
+                    if event.button == 1 and not self.is_submit:  # Left click (button 1 is left click)
                         mouse_x, mouse_y = pygame.mouse.get_pos()  # Get mouse position
                         #   print(f"Mouse clicked at position: ({mouse_x}, {mouse_y})")
                         if 532 < mouse_x < 532 + 216 and 582 < mouse_y < 582 + 66:
                             is_submit = True
                             print("Password is: " + self.password)
                             print("Username is: " + self.username)
-                if not is_submit:
+                if not self.is_submit:
                     if event.type == pygame.KEYDOWN:
                         if is_user:
                             key_name = pygame.key.name(event.key)
@@ -90,4 +90,5 @@ class LoginPage:
             pygame.display.flip()
 
 
-
+if __name__ == '__main__':
+    lp = LoginPage()
