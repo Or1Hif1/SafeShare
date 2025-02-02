@@ -26,68 +26,67 @@ class LoginPage:
         self.submit_but = pygame.image.load("images/submit_button.png")
         self.logo = pygame.image.load("images/logosafe2.png")
         self.is_submit = False
+        self.i = 0
+        self.tick = 0
+        self.opacity = 255
+        self.is_user = True
+        self.running = True
         pygame.display.set_caption('SafeShare')
 
-    def loop(self):
-        running = True
-        is_user = True
-        i = 0
-        opacity = 255
-        tick = 0
-        while running:
-            self.screen.blit(self.bg, (0, 0))
-            self.screen.blit(self.submit_but, (493, 543))
-            render_text(self.username, bebas_font, (5, 51, 43), 345, 299, self.screen)  # White text
-            render_text(len(self.password) * "*", bebas_font, (5, 51, 43), 345, 456, self.screen)  # White text
-            tick += 1
-            if opacity > 1:
-                if i < 600:
-                    i += 50
-                elif opacity > 0 and tick > 30:
-                    opacity -= 8
-                    #   print("lower")
-                welcome(self.logo, self.screen, i, opacity)
-                #   print("keep welcome")
+    def loop(self, running):
+        self.screen.blit(self.bg, (0, 0))
+        self.screen.blit(self.submit_but, (493, 543))
+        render_text(self.username, bebas_font, (5, 51, 43), 345, 299, self.screen)  # White text
+        render_text(len(self.password) * "*", bebas_font, (5, 51, 43), 345, 456, self.screen)  # White text
+        self.tick += 1
+        if self.opacity > 1:
+            if self.i < 600:
+                self.i += 50
+            elif self.opacity > 0 and self.tick > 30:
+                self.opacity -= 8
+                #   print("lower")
+            welcome(self.logo, self.screen, self.i, self.opacity)
+            #   print("keep welcome")
 
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1 and not self.is_submit:  # Left click (button 1 is left click)
-                        mouse_x, mouse_y = pygame.mouse.get_pos()  # Get mouse position
-                        #   print(f"Mouse clicked at position: ({mouse_x}, {mouse_y})")
-                        if 532 < mouse_x < 532 + 216 and 582 < mouse_y < 582 + 66:
-                            is_submit = True
-                            print("Password is: " + self.password)
-                            print("Username is: " + self.username)
-                if not self.is_submit:
-                    if event.type == pygame.KEYDOWN:
-                        if is_user:
-                            key_name = pygame.key.name(event.key)
-                            if str(key_name) == "backspace":
-                                if len(self.username) > 0:
-                                    self.username = self.username[0:-1]
-                            elif str(key_name) == "return":
-                                is_user = not is_user
-                            else:
-                                if len(self.username) < 20:
-                                    self.username += event.unicode
-
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1 and not self.is_submit:  # Left click (button 1 is left click)
+                    mouse_x, mouse_y = pygame.mouse.get_pos()  # Get mouse position
+                    #   print(f"Mouse clicked at position: ({mouse_x}, {mouse_y})")
+                    if 532 < mouse_x < 532 + 216 and 582 < mouse_y < 582 + 66:
+                        self.is_submit = True
+                        print("Password is: " + self.password)
+                        print("Username is: " + self.username)
+            if not self.is_submit:
+                if event.type == pygame.KEYDOWN:
+                    if self.is_user:
+                        key_name = pygame.key.name(event.key)
+                        if str(key_name) == "backspace":
+                            if len(self.username) > 0:
+                                self.username = self.username[0:-1]
+                        elif str(key_name) == "return":
+                            self.is_user = not self.is_user
                         else:
-                            key_name = pygame.key.name(event.key)
-                            if str(key_name) == "backspace":
-                                if len(self.password) > 0:
-                                    self.password = self.password[0:-1]
-                            elif str(key_name) == "return":
-                                is_user = not is_user
-                            else:
-                                if len(self.username) < 20:
-                                    self.password += event.unicode
+                            if len(self.username) < 20:
+                                self.username += event.unicode
 
-                        print(self.username)
+                    else:
+                        key_name = pygame.key.name(event.key)
+                        if str(key_name) == "backspace":
+                            if len(self.password) > 0:
+                                self.password = self.password[0:-1]
+                        elif str(key_name) == "return":
+                            self.is_user = not self.is_user
+                        else:
+                            if len(self.username) < 20:
+                                self.password += event.unicode
 
-                if event.type == pygame.QUIT:
-                    running = False
+                    print(self.username)
 
-            pygame.display.flip()
+            if event.type == pygame.QUIT:
+                self.running = False
+
+        pygame.display.flip()
 
 
 if __name__ == '__main__':
